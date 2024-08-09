@@ -1,0 +1,19 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"  # Проброс порта для доступа к приложению
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development  # Установка переменной окружения
+    volumes:
+      - .:/app  # Монтирование текущей директории в контейнер
+    depends_on:
+      - selenium  # Зависимость от сервиса Selenium
+  selenium:
+    image: selenium/standalone-chrome:latest  # Используем образ Selenium с Chrome
+    ports:
+      - "4444:4444"  # Проброс порта для доступа к Selenium
+    volumes:
+      - /dev/shm:/dev/shm  # Устранение проблем с памятью
